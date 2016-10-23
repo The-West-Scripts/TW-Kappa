@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name            TW Twitch Emotes
+// @name            TWKappa
 // @description     Kappa
 // @author          xShteff
-// @version         0.06
+// @version         0.09
 // @match           https://*.the-west.net/game.php*
 // @match           https://*.the-west.de/game.php*
 // @match           https://*.the-west.pl/game.php*
@@ -29,9 +29,11 @@
 var TWKappa = {
     Settings: {
         image_size: 200,
+        video_width: 300,
+        video_height: 190
     },
     VersionControl: {
-        version: 0.07,
+        version: 0.09,
         isOutdated: function() {
             return TWKappa.Emotes.Extra.storage.latestVersion > TWKappa.VersionControl.version;
         },
@@ -48,8 +50,16 @@ var TWKappa = {
         init: function() {
             if (localStorage.getItem(TWKappa.LocalStorage.key) === null)
                 TWKappa.LocalStorage.save();
-            else
+            else {
+                var fromLocal = JSON.parse(localStorage.getItem(TWKappa.LocalStorage.key));
+                for (var key in TWKappa.Settings) {
+                    if (fromLocal[key] === undefined) {
+                        TWKappa.LocalStorage.save();
+                        break;
+                    }
+                }
                 TWKappa.LocalStorage.load();
+            }
         },
         save: function() {
             localStorage.setItem(TWKappa.LocalStorage.key, JSON.stringify(TWKappa.Settings));
@@ -73,6 +83,9 @@ var TWKappa = {
             buildCell: function(content) {
                 return $('<td>').html(content);
             },
+            buildRowCell: function(content) {
+                return $('<td>').attr('colspan', '2').html(content);
+            },
             buildLabel: function(text) {
                 return $('<td>').text(text).css({
                     'line-height': '30px',
@@ -81,11 +94,19 @@ var TWKappa = {
             },
             buildInputTable: function() {
                 var table = $('<table>').attr('id', 'twkappa_input_table');
-                var r1Content = [TWKappa.Window.Table.buildLabel("Img max size: (0 = off)"), TWKappa.Window.Table.buildCell(new west.gui.Textfield('kappa_image_size').setValue(TWKappa.Settings.image_size).setSize(4).onlyNumeric().getMainDiv())];
+                var r1Content = [TWKappa.Window.Table.buildLabel("Img max size: "), TWKappa.Window.Table.buildCell(new west.gui.Textfield('kappa_image_size').setValue(TWKappa.Settings.image_size).setSize(2).onlyNumeric().getMainDiv())];
                 var r1 = TWKappa.Window.Table.buildRow(r1Content);
+
+                var rYTWidthContent = [TWKappa.Window.Table.buildLabel("YT Height: "), TWKappa.Window.Table.buildCell(new west.gui.Textfield('kappa_yt_height').setValue(TWKappa.Settings.video_height).setSize(2).onlyNumeric().getMainDiv())];
+                var rYTWidth = TWKappa.Window.Table.buildRow(rYTWidthContent);
+                var rYTHeightContent = [TWKappa.Window.Table.buildLabel("YT Width: "), TWKappa.Window.Table.buildCell(new west.gui.Textfield('kappa_yt_width').setValue(TWKappa.Settings.video_width).setSize(2).onlyNumeric().getMainDiv())];
+                var rYTHeight = TWKappa.Window.Table.buildRow(rYTHeightContent);
                 var buttonSave = new west.gui.Button("Save Size", function() {
                     var size = $('#kappa_image_size').val();
                     TWKappa.Settings.image_size = size;
+                    TWKappa.Settings.video_height = $('#kappa_yt_height').val();
+                    TWKappa.Settings.video_width = $('#kappa_yt_width').val();
+
                     new UserMessage("Settings saved!").show();
                     TWKappa.LocalStorage.save();
                 });
@@ -99,7 +120,7 @@ var TWKappa = {
                     TWKappa.Emotes.Extra.init();
                 });
                 var r2 = TWKappa.Window.Table.buildRow([TWKappa.Window.Table.buildCell(buttonFetchEmotes.getMainDiv()), TWKappa.Window.Table.buildCell(buttonEmotes.getMainDiv())]);
-                table.append(r1).append(TWKappa.Window.Table.buildRow(TWKappa.Window.Table.buildCell(buttonSave.getMainDiv()))).append(r2);
+                table.append(r1).append(rYTHeight).append(rYTWidth).append(TWKappa.Window.Table.buildRow(TWKappa.Window.Table.buildRowCell("<i>Setting any of these to 0 will disable the feature</i>"))).append(TWKappa.Window.Table.buildRow(TWKappa.Window.Table.buildCell(buttonSave.getMainDiv()))).append(r2);
                 return table;
             },
             buildEmoteTable: function() {
@@ -141,7 +162,7 @@ var TWKappa = {
                     });
                     row.append(TWKappa.Window.Table.buildCell(image), TWKappa.Window.Table.buildCell(key));
                     table.append(row);
-                });                
+                });
                 return table;
             }
         },
@@ -151,7 +172,7 @@ var TWKappa = {
             content.append(TWKappa.Window.Table.buildEmoteTable());
             var contentScroll = new west.gui.Scrollpane().appendContent(content);
             wman.open("twkappa", "TWKappa").setMiniTitle("TWKappa").setSize(320, 480).appendToContentPane(contentScroll.getMainDiv());
-            $('#twkappa_input_table tr:nth-child(2) td').css('padding-bottom', '20px');
+            $('#twkappa_input_table tr:nth-child(4) td').css('padding-bottom', '20px');
         },
     },
     Icon: {
@@ -222,6 +243,24 @@ var TWKappa = {
         parser: function() {
             var oldfunc = Game.TextHandler.parse;
             Game.TextHandler.parse = function(m) {
+                //YouTube
+                if (TWKappa.Settings.video_width > 0 && TWKappa.Settings.video_height > 0) {
+                    var ytRegex = /^(?:https?:\/\/)?(?:www\.)?youtu(?:be\.com\/watch\?(?:.*?&(?:amp;)?)?v=|\.be\/)([\w\-]+)(?:&(?:amp;)?[\w\?=]*)?$/g;
+                    var isYT = ytRegex.test(m);
+                    if (isYT) {
+                        var ytUrl = ytRegex.exec(m);
+                        var ytFrame = $('<iframe>').attr({
+                            width: TWKappa.Settings.video_width,
+                            height: TWKappa.Settings.video_height,
+                            src: `https://www.youtube.com/embed/${ytRegex.exec(m)[1]}`,
+                            frameborder: 0,
+                            allowfullscreeen: ''
+                        });
+                        return ytFrame[0].outerHTML;
+                    }
+                }
+
+                //Images
                 if (TWKappa.Settings.image_size > 0) {
                     var imgRegex = /^http(|s):\/\/([^\s]*)\.(png|jpg|gif)$/g;
                     if (imgRegex.test(m)) {
@@ -232,16 +271,19 @@ var TWKappa = {
                             'max-width': TWKappa.Settings.image_size + 'px',
                             'max-height': TWKappa.Settings.image_size + 'px'
                         });
-                        return oldfunc(image[0].outerHTML);
+                        return oldfunc("<a href='" + m + "' target='_blank'>" + image[0].outerHTML + "</a>");
                     }
                 }
 
+                //Extra Emotes
                 for (var k in TWKappa.Emotes.Extra.storage.emotes)
                     m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "' src='" + TWKappa.Emotes.Extra.storage.emotes[k] + "' />");
 
+                //Fix for Kappas
                 for (var k in TWKappa.Emotes.Fix)
                     m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "' src='https://static-cdn.jtvnw.net/emoticons/v1/" + TWKappa.Emotes.Fix[k] + "/1.0' />");
 
+                //Twitch Emotes
                 for (var k in TWKappa.Emotes.Twitch.storage.emotes)
                     m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "' src='https://static-cdn.jtvnw.net/emoticons/v1/" + TWKappa.Emotes.Twitch.storage.emotes[k].image_id + "/1.0' />");
 
