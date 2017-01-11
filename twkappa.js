@@ -2,7 +2,7 @@
 // @name            TWKappa
 // @description     Kappa
 // @author          xShteff
-// @version         0.12
+// @version         0.13
 // @match           https://*.the-west.net/game.php*
 // @match           https://*.the-west.de/game.php*
 // @match           https://*.the-west.pl/game.php*
@@ -33,7 +33,7 @@ var TWKappa = {
         video_height: 190
     },
     VersionControl: {
-        version: 0.11,
+        version: 0.13,
         isOutdated: function() {
             return TWKappa.Emotes.Extra.storage.latestVersion > TWKappa.VersionControl.version;
         },
