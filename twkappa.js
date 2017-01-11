@@ -2,7 +2,7 @@
 // @name            TWKappa
 // @description     Kappa
 // @author          xShteff
-// @version         0.09
+// @version         0.12
 // @match           https://*.the-west.net/game.php*
 // @match           https://*.the-west.de/game.php*
 // @match           https://*.the-west.pl/game.php*
@@ -33,7 +33,7 @@ var TWKappa = {
         video_height: 190
     },
     VersionControl: {
-        version: 0.09,
+        version: 0.11,
         isOutdated: function() {
             return TWKappa.Emotes.Extra.storage.latestVersion > TWKappa.VersionControl.version;
         },
@@ -196,7 +196,7 @@ var TWKappa = {
             });
 
             if ($('#twkappa_init_button').length == 0)
-                $("#ui_menubar .ui_menucontainer :last").after($('<div></div>').attr({
+                $("#ui_menubar").append($('<div></div>').attr({
                     'class': 'ui_menucontainer',
                     'id': 'twkappa_init_button'
                 }).append(icon).append(cap));
@@ -287,6 +287,11 @@ var TWKappa = {
                 for (var k in TWKappa.Emotes.Twitch.storage.emotes)
                     m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "' src='https://static-cdn.jtvnw.net/emoticons/v1/" + TWKappa.Emotes.Twitch.storage.emotes[k].image_id + "/1.0' />");
 
+                //Winter
+                if (new Date().getMonth() === 11)
+                    for (var k in TWKappa.Emotes.Extra.storage.winter)
+                        m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "'src='" + TWKappa.Emotes.Extra.storage.winter[k].src + "' style='" + TWKappa.Emotes.Extra.storage.winter[k].style + "' />");
+
                 return oldfunc(m);
             }
         }
@@ -298,6 +303,8 @@ var TWKappa = {
         TWKappa.LocalStorage.init();
         TWKappa.GameInject.parser();
         TWKappa.Window.RegisterWestApi();
+        if (new Date().getMonth() === 11)
+            $('head').append("<style>div.tw2gui_window.chat .chat_text { overflow:visible; }</style>")
     }
 }
 
