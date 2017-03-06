@@ -21,8 +21,8 @@
 // @match           https://*.the-west.sk/game.php*
 // @match           https://*.the-west.fr/game.php*
 // @match           https://*.the-west.it/game.php*
-// @downloadURL     https://xshteff.github.io/userscripts/kappa.user.js
-// @updateURL       https://xshteff.github.io/userscripts/kappa.user.js
+// @downloadURL     https://xshteff.github.io/TWKappa/script.user.js
+// @updateURL       https://xshteff.github.io/TWKappa/script.user.js
 // @grant           none
 // @run-at          document-end
 // ==/UserScript==
@@ -40,7 +40,7 @@ var TWKappa = {
         notifyOutdated: function() {
             if (TWKappa.VersionControl.isOutdated()) {
                 new west.gui.Dialog('TWKappa is outdated', 'There\'s a new version of TWKappa currently available! Do you want to install it?', west.gui.Dialog.SYS_WARNING).addButton("Install!", function() {
-                    window.open('https://xshteff.github.io/userscripts/kappa.user.js', '_blank');
+                    window.open(' https://xshteff.github.io/TWKappa/script.user.js', '_blank');
                 }).addButton("Close", function() {}).show();
             }
         }
@@ -206,7 +206,7 @@ var TWKappa = {
         Extra: {
             storage: null,
             init: function() {
-                $.get("https://xshteff.github.io/userscripts/emotes.json", function(data) {
+                $.get("https://xshteff.github.io/TWKappa/emotes.json", function(data) {
                     TWKappa.Emotes.Extra.storage = data;
                     TWKappa.VersionControl.notifyOutdated();
                     new UserMessage('Extra Emotes Loaded').show();

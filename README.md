@@ -1,37 +1,19 @@
-## Welcome to GitHub Pages
+## TWKappa
 
-You can use the [editor on GitHub](https://github.com/xShteff/TWKappa/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Features:
+- Integrates Twitch.tv's emotes into the game
+- Adds a few extra emotes as well
+- Previews images in chat
+- Previews youtube videos in chat
+- Sizing settings for the previous two features
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Disclaimer
 
-### Markdown
+Please note that only people that have the script installed will be able to see the emotes!
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Suggestions/Feedback
 
-```markdown
-Syntax highlighted code block
+Any kind of suggestions must be posted on either the international forum or beta one, in xShteff's thread.
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/xShteff/TWKappa/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Credits
+All Twitch emotes and the API is being hosted/maintained by https://twitchemotes.com/. 
