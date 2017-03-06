@@ -21,8 +21,8 @@
 // @match           https://*.the-west.sk/game.php*
 // @match           https://*.the-west.fr/game.php*
 // @match           https://*.the-west.it/game.php*
-// @downloadURL     https://xshteff.github.io/TWKappa/script.user.js
-// @updateURL       https://xshteff.github.io/TWKappa/script.user.js
+// @downloadURL     https://xshteff.github.io/TWKappa/twkappa.user.js
+// @updateURL       https://xshteff.github.io/TWKappa/twkappa.user.js
 // @grant           none
 // @run-at          document-end
 // ==/UserScript==
