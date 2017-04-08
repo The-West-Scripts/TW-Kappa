@@ -22,7 +22,7 @@
         "fKnife" : "https://static-cdn.jtvnw.net/emoticons/v1/90377/1.0",
         "FeelsOhWait" : "https://cdn.betterttv.net/emote/55ab96ce9406e5482db53424/1x",
         "LUL" : "https://cdn.betterttv.net/emote/567b00c61ddbe1786688a633/1x",
-        "BanHammer" : "https://cdn.betterttv.net/emote/571942c1d02a42b8582bdb6a/1x",
+        "BanHammer" : "https://cdn.betterttv.net/emote/584074e8bec4367f172e2975/1x",
         "RickPls" : "https://cdn.betterttv.net/emote/56957a4f6bc784fb79bad9d4/1x",
         "SaxPls" : "https://cdn.betterttv.net/emote/55b9b972c392e3050eca7f1b/1x",
         "HorseHead" : "https://cdn.betterttv.net/emote/570c801487b8f35a2827215c/1x",
@@ -56,7 +56,10 @@
         "FeelsWestMan" : "https://cdn.betterttv.net/emote/57defac95441dc6a0c997bec/1x",
         "FeelsBlueMan" : "https://cdn.betterttv.net/emote/57b4f47651067c5243fe1c60/1x",
         "FeelsTrumpMan" : "https://cdn.betterttv.net/emote/57c4270b34df7eab4ca2690c/1x",
-        "FeelsBirthdayMan" : "https://cdn.betterttv.net/emote/55b6524154eefd53777b2580/1x"
+        "FeelsBirthdayMan" : "https://cdn.betterttv.net/emote/55b6524154eefd53777b2580/1x",
+        "Clap" : "https://cdn.betterttv.net/emote/55b6f480e66682f576dd94f5/1x",
+        "monkaS" : "https://cdn.betterttv.net/emote/56e9f494fff3cc5c35e5287e/1x",
+        "monkaX" : "https://cdn.betterttv.net/emote/58e5abdaf3ef4c75c9c6f0f9/1x"
     },
     "winter": {
         "IceCold" : {
