@@ -2,7 +2,7 @@
 // @name            TWKappa
 // @description     Kappa
 // @author          xShteff
-// @version         0.13
+// @version         0.14
 // @match           https://*.the-west.net/game.php*
 // @match           https://*.the-west.de/game.php*
 // @match           https://*.the-west.pl/game.php*
@@ -33,7 +33,7 @@ var TWKappa = {
         video_height: 190
     },
     VersionControl: {
-        version: 0.13,
+        version: 0.14,
         isOutdated: function() {
             return TWKappa.Emotes.Extra.storage.latestVersion > TWKappa.VersionControl.version;
         },
@@ -149,20 +149,21 @@ var TWKappa = {
                     row.append(TWKappa.Window.Table.buildCell(image), TWKappa.Window.Table.buildCell(key));
                     table.append(row);
                 });
-                $.each(TWKappa.Emotes.Twitch.storage.emotes, function(key, value) {
-                    var row = $('<tr>');
-                    var image = $('<img>').attr({
-                        'src': "https://static-cdn.jtvnw.net/emoticons/v1/" + value.image_id + "/1.0",
-                        'alt': key,
-                        'title': key,
-                        'class': 'twkappa_preview'
-                    }).click(function() {
-                        var val = $('input.message').val();
-                        $('input.message').val(val + key + " ")
+                if(TWKappa.Emotes.Twitch.storage.emotes !== null)
+                    $.each(TWKappa.Emotes.Twitch.storage.emotes, function(key, value) {
+                        var row = $('<tr>');
+                        var image = $('<img>').attr({
+                            'src': "https://static-cdn.jtvnw.net/emoticons/v1/" + value.image_id + "/1.0",
+                            'alt': key,
+                            'title': key,
+                            'class': 'twkappa_preview'
+                        }).click(function() {
+                            var val = $('input.message').val();
+                            $('input.message').val(val + key + " ")
+                        });
+                        row.append(TWKappa.Window.Table.buildCell(image), TWKappa.Window.Table.buildCell(key));
+                        table.append(row);
                     });
-                    row.append(TWKappa.Window.Table.buildCell(image), TWKappa.Window.Table.buildCell(key));
-                    table.append(row);
-                });
                 return table;
             }
         },
@@ -208,8 +209,7 @@ var TWKappa = {
             init: function() {
                 $.get("https://xshteff.github.io/TWKappa/emotes.json", function(data) {
                     TWKappa.Emotes.Extra.storage = data;
-                    TWKappa.VersionControl.notifyOutdated();
-                    new UserMessage('Extra Emotes Loaded').show();
+                    //new UserMessage('Extra Emotes Loaded').show();
                     TWKappa.VersionControl.notifyOutdated();
                 }).fail(function() {
                     new UserMessage('Can\'t load Extra emotes').show();
@@ -221,9 +221,10 @@ var TWKappa = {
             init: function() {
                 $.get("https://twitchemotes.com/api_cache/v2/global.json", function(data) {
                     TWKappa.Emotes.Twitch.storage = data;
-                    new UserMessage('Twitch Emotes Loaded').show();
+                    //new UserMessage('Twitch Emotes Loaded').show();
                 }).fail(function() {
                     new UserMessage('Can\'t load Twitch emotes').show();
+                    TWKappa.Emotes.Twitch.storage = null;
                 });
             }
         },
@@ -282,10 +283,12 @@ var TWKappa = {
                 //Fix for Kappas
                 for (var k in TWKappa.Emotes.Fix)
                     m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "' src='https://static-cdn.jtvnw.net/emoticons/v1/" + TWKappa.Emotes.Fix[k] + "/1.0' />");
-
+                
+                console.log(TWKappa);
                 //Twitch Emotes
-                for (var k in TWKappa.Emotes.Twitch.storage.emotes)
-                    m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "' src='https://static-cdn.jtvnw.net/emoticons/v1/" + TWKappa.Emotes.Twitch.storage.emotes[k].image_id + "/1.0' />");
+                if(TWKappa.Emotes.Twitch.storage !== null)
+                    for (var k in TWKappa.Emotes.Twitch.storage.emotes)
+                        m = m.replace(new RegExp("(^|\\s)" + k.replace(/([\)\.\^\(])/g, "\\$1"), "g"), " <img alt='" + k + "' title='" + k + "' src='https://static-cdn.jtvnw.net/emoticons/v1/" + TWKappa.Emotes.Twitch.storage.emotes[k].image_id + "/1.0' />");
 
                 //Winter
                 if (new Date().getMonth() === 11)
