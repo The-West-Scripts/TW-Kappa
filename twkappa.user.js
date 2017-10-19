@@ -40,7 +40,7 @@ var TWKappa = {
         notifyOutdated: function() {
             if (TWKappa.VersionControl.isOutdated()) {
                 new west.gui.Dialog('TWKappa is outdated', 'There\'s a new version of TWKappa currently available! Do you want to install it?', west.gui.Dialog.SYS_WARNING).addButton("Install!", function() {
-                    window.open(' https://xshteff.github.io/TWKappa/script.user.js', '_blank');
+                    window.open(' https://xshteff.github.io/TWKappa/twkappa.user.js', '_blank');
                 }).addButton("Close", function() {}).show();
             }
         }
