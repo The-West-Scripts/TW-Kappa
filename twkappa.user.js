@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name            TW Kappa - Chat Enhancements
 // @description     Kappa no Kappa BabyRage
-// @author          xShteff
-// @version         0.15
+// @author          Alin Stefan Olaru - "xShteff"
+// @version         0.16
 // @match           https://*.the-west.net/game.php*
 // @match           https://*.the-west.de/game.php*
 // @match           https://*.the-west.pl/game.php*
@@ -21,8 +21,8 @@
 // @match           https://*.the-west.sk/game.php*
 // @match           https://*.the-west.fr/game.php*
 // @match           https://*.the-west.it/game.php*
-// @downloadURL     https://xshteff.github.io/TWKappa/twkappa.user.js
-// @updateURL       https://xshteff.github.io/TWKappa/twkappa.user.js
+// @downloadURL     https://alstol.github.io/TWKappa/twkappa.user.js
+// @updateURL       https://alstol.github.io/TWKappa/twkappa.user.js
 // @grant           none
 // @run-at          document-end
 // ==/UserScript==
@@ -33,14 +33,14 @@ var TWKappa = {
         video_height: 190
     },
     VersionControl: {
-        version: 0.15,
+        version: 0.16,
         isOutdated: function() {
             return TWKappa.Emotes.Extra.storage.latestVersion > TWKappa.VersionControl.version;
         },
         notifyOutdated: function() {
             if (TWKappa.VersionControl.isOutdated()) {
                 new west.gui.Dialog('TWKappa is outdated', 'There\'s a new version of TWKappa currently available! Do you want to install it?', west.gui.Dialog.SYS_WARNING).addButton("Install!", function() {
-                    window.open(' https://xshteff.github.io/TWKappa/twkappa.user.js', '_blank');
+                    window.open(' https://alstol.github.io/TWKappa/twkappa.user.js', '_blank');
                 }).addButton("Close", function() {}).show();
             }
         }
@@ -71,7 +71,7 @@ var TWKappa = {
     Window: {
         RegisterWestApi: function() {
             var content = $('<div>').text("TWKappa, originally built by xShteff, no longer maintained. If you wish to contribute please contact me on GitHub and I will grant you access.");
-            TheWestApi.register('TWKappa', 'TW Twitch Chat Emotes', '2.1', Game.version.toString(), 'xShteff', 'https://xshteff.github.io').setGui(content);
+            TheWestApi.register('TWKappa', 'TW Twitch Chat Emotes', '2.1', Game.version.toString(), 'xShteff', 'https://github.com/alstol/TWKappa/').setGui(content);
         },
         Table: {
             buildRow: function(array) {
@@ -207,7 +207,7 @@ var TWKappa = {
         Extra: {
             storage: null,
             init: function() {
-                $.get("https://xshteff.github.io/TWKappa/emotes.json", function(data) {
+                $.get("https://alstol.github.io/TWKappa/emotes.json", function(data) {
                     TWKappa.Emotes.Extra.storage = data;
                     //new UserMessage('Extra Emotes Loaded').show();
                     TWKappa.VersionControl.notifyOutdated();
@@ -219,7 +219,7 @@ var TWKappa = {
         Twitch: {
             storage: null,
             init: function() {
-                $.get("https://xshteff.github.io/TWKappa/twatchemotes.json", function(data) {
+                $.get("https://alstol.github.io/TWKappa/twatchemotes.json", function(data) {
                     TWKappa.Emotes.Twitch.storage = data;
                     //new UserMessage('Twitch Emotes Loaded').show();
                 }).fail(function() {
