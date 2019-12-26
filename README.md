@@ -18,4 +18,4 @@ All Twitch emotes and the API is being hosted/maintained by https://twitchemotes
 
 ## Install URL
 
-https://the-west-scripts.github.io/TWKappa/script.user.js
+https://the-west-scripts.github.io/TW-Kappa/script.user.js
